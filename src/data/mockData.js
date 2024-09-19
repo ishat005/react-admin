@@ -75,7 +75,6 @@ export const mockDataTeam = [
   },
 ];
 
-
 export const mockDataContacts = [
   {
     id: 1,
