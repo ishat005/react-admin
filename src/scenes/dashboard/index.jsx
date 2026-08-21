@@ -18,41 +18,97 @@ const Dashboard = () => {
   const colors = tokens(theme.palette.mode);
 
   return (
-    <Box m="20px">
+    <Box
+      m={{
+        xs: "12px",
+        sm: "16px",
+        md: "20px",
+      }}
+      width="auto"
+    >
       {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+      <Box
+        display="flex"
+        flexDirection={{
+          xs: "column",
+          sm: "row",
+        }}
+        justifyContent="space-between"
+        alignItems={{
+          xs: "flex-start",
+          sm: "center",
+        }}
+        gap="16px"
+        mb="20px"
+      >
+        <Header
+          title="DASHBOARD"
+          subtitle="Welcome to your dashboard"
+        />
 
-        <Box>
-          <Button
+        <Button
+          sx={{
+            backgroundColor: colors.blueAccent[700],
+            color: colors.grey[100],
+            fontSize: {
+              xs: "12px",
+              sm: "14px",
+            },
+            fontWeight: "bold",
+            padding: {
+              xs: "8px 14px",
+              sm: "10px 20px",
+            },
+            whiteSpace: "nowrap",
+          }}
+        >
+          <DownloadOutlinedIcon
             sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
+              mr: "10px",
+              fontSize: {
+                xs: "18px",
+                sm: "22px",
+              },
             }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box>
+          />
+          Download Reports
+        </Button>
       </Box>
 
-      {/* GRID & CHARTS */}
+      {/* DASHBOARD GRID */}
       <Box
         display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
-        gap="20px"
+        gridTemplateColumns={{
+          xs: "1fr",
+          sm: "repeat(2, 1fr)",
+          md: "repeat(12, 1fr)",
+        }}
+        gridAutoRows={{
+          xs: "auto",
+          md: "140px",
+        }}
+        gap={{
+          xs: "12px",
+          sm: "16px",
+          md: "20px",
+        }}
+        width="100%"
       >
-        {/* ROW 1 */}
+        {/* ==================== STAT CARDS ==================== */}
+
+        {/* EMAILS SENT */}
         <Box
-          gridColumn="span 3"
+          gridColumn={{
+            xs: "span 1",
+            sm: "span 1",
+            md: "span 3",
+          }}
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
           justifyContent="center"
+          minWidth={0}
+          minHeight="140px"
         >
           <StatBox
             title="12,361"
@@ -61,17 +117,28 @@ const Dashboard = () => {
             increase="+14%"
             icon={
               <EmailIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={{
+                  color: colors.greenAccent[600],
+                  fontSize: "26px",
+                }}
               />
             }
           />
         </Box>
+
+        {/* SALES OBTAINED */}
         <Box
-          gridColumn="span 3"
+          gridColumn={{
+            xs: "span 1",
+            sm: "span 1",
+            md: "span 3",
+          }}
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
           justifyContent="center"
+          minWidth={0}
+          minHeight="140px"
         >
           <StatBox
             title="431,225"
@@ -80,17 +147,28 @@ const Dashboard = () => {
             increase="+21%"
             icon={
               <PointOfSaleIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={{
+                  color: colors.greenAccent[600],
+                  fontSize: "26px",
+                }}
               />
             }
           />
         </Box>
+
+        {/* NEW CLIENTS */}
         <Box
-          gridColumn="span 3"
+          gridColumn={{
+            xs: "span 1",
+            sm: "span 1",
+            md: "span 3",
+          }}
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
           justifyContent="center"
+          minWidth={0}
+          minHeight="140px"
         >
           <StatBox
             title="32,441"
@@ -99,17 +177,28 @@ const Dashboard = () => {
             increase="+5%"
             icon={
               <PersonAddIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={{
+                  color: colors.greenAccent[600],
+                  fontSize: "26px",
+                }}
               />
             }
           />
         </Box>
+
+        {/* TRAFFIC RECEIVED */}
         <Box
-          gridColumn="span 3"
+          gridColumn={{
+            xs: "span 1",
+            sm: "span 1",
+            md: "span 3",
+          }}
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
           justifyContent="center"
+          minWidth={0}
+          minHeight="140px"
         >
           <StatBox
             title="1,325,134"
@@ -118,26 +207,47 @@ const Dashboard = () => {
             increase="+43%"
             icon={
               <TrafficIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={{
+                  color: colors.greenAccent[600],
+                  fontSize: "26px",
+                }}
               />
             }
           />
         </Box>
 
-        {/* ROW 2 */}
+        {/* ==================== REVENUE ==================== */}
+
         <Box
-          gridColumn="span 8"
-          gridRow="span 2"
+          gridColumn={{
+            xs: "span 1",
+            sm: "span 2",
+            md: "span 8",
+          }}
+          gridRow={{
+            xs: "auto",
+            md: "span 2",
+          }}
           backgroundColor={colors.primary[400]}
+          minWidth={0}
+          overflow="hidden"
         >
           <Box
-            mt="25px"
-            p="0 30px"
-            display="flex "
+            mt={{
+              xs: "18px",
+              sm: "20px",
+              md: "25px",
+            }}
+            px={{
+              xs: "16px",
+              sm: "20px",
+              md: "30px",
+            }}
+            display="flex"
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box>
+            <Box minWidth={0}>
               <Typography
                 variant="h5"
                 fontWeight="600"
@@ -145,52 +255,99 @@ const Dashboard = () => {
               >
                 Revenue Generated
               </Typography>
+
               <Typography
                 variant="h3"
                 fontWeight="bold"
                 color={colors.greenAccent[500]}
+                sx={{
+                  fontSize: {
+                    xs: "24px",
+                    sm: "28px",
+                    md: "30px",
+                  },
+                }}
               >
                 $59,342.32
               </Typography>
             </Box>
-            <Box>
-              <IconButton>
-                <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-                />
-              </IconButton>
-            </Box>
+
+            <IconButton>
+              <DownloadOutlinedIcon
+                sx={{
+                  fontSize: {
+                    xs: "22px",
+                    sm: "26px",
+                  },
+                  color: colors.greenAccent[500],
+                }}
+              />
+            </IconButton>
           </Box>
-          <Box height="250px" m="-20px 0 0 0">
+
+          <Box
+            height={{
+              xs: "240px",
+              sm: "270px",
+              md: "250px",
+            }}
+            mt={{
+              xs: "0px",
+              md: "-20px",
+            }}
+          >
             <LineChart isDashboard={true} />
           </Box>
         </Box>
+
+        {/* ==================== TRANSACTIONS ==================== */}
+
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+          gridColumn={{
+            xs: "span 1",
+            sm: "span 2",
+            md: "span 4",
+          }}
+          gridRow={{
+            xs: "auto",
+            md: "span 2",
+          }}
           backgroundColor={colors.primary[400]}
           overflow="auto"
+          minWidth={0}
         >
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
             borderBottom={`4px solid ${colors.primary[500]}`}
-            colors={colors.grey[100]}
-            p="15px"
+            p={{
+              xs: "12px",
+              sm: "15px",
+            }}
           >
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+            <Typography
+              color={colors.grey[100]}
+              variant="h5"
+              fontWeight="600"
+            >
               Recent Transactions
             </Typography>
           </Box>
+
           {mockTransactions.map((transaction, i) => (
             <Box
               key={`${transaction.txId}-${i}`}
               display="flex"
               justifyContent="space-between"
               alignItems="center"
+              gap="10px"
               borderBottom={`4px solid ${colors.primary[500]}`}
-              p="15px"
+              p={{
+                xs: "12px",
+                sm: "15px",
+              }}
+              minWidth="400px"
             >
               <Box>
                 <Typography
@@ -200,15 +357,21 @@ const Dashboard = () => {
                 >
                   {transaction.txId}
                 </Typography>
+
                 <Typography color={colors.grey[100]}>
                   {transaction.user}
                 </Typography>
               </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
+
+              <Box color={colors.grey[100]}>
+                {transaction.date}
+              </Box>
+
               <Box
                 backgroundColor={colors.greenAccent[500]}
                 p="5px 10px"
                 borderRadius="4px"
+                whiteSpace="nowrap"
               >
                 ${transaction.cost}
               </Box>
@@ -216,63 +379,149 @@ const Dashboard = () => {
           ))}
         </Box>
 
-        {/* ROW 3 */}
+        {/* ==================== CAMPAIGN ==================== */}
+
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+          gridColumn={{
+            xs: "span 1",
+            sm: "span 2",
+            md: "span 4",
+          }}
+          gridRow={{
+            xs: "auto",
+            md: "span 2",
+          }}
           backgroundColor={colors.primary[400]}
-          p="30px"
+          p={{
+            xs: "18px",
+            sm: "24px",
+            md: "30px",
+          }}
+          minWidth={0}
         >
           <Typography variant="h5" fontWeight="600">
             Campaign
           </Typography>
+
           <Box
             display="flex"
             flexDirection="column"
             alignItems="center"
-            mt="25px"
+            mt={{
+              xs: "20px",
+              md: "25px",
+            }}
           >
             <ProgressCircle size="125" />
+
             <Typography
               variant="h5"
               color={colors.greenAccent[500]}
-              sx={{ mt: "15px" }}
+              sx={{
+                mt: "15px",
+                textAlign: "center",
+              }}
             >
               $48,352 revenue generated
             </Typography>
-            <Typography>Includes extra misc expenditures and costs</Typography>
+
+            <Typography
+              sx={{
+                textAlign: "center",
+                fontSize: {
+                  xs: "12px",
+                  sm: "14px",
+                },
+              }}
+            >
+              Includes extra misc expenditures and costs
+            </Typography>
           </Box>
         </Box>
+
+        {/* ==================== SALES ==================== */}
+
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+          gridColumn={{
+            xs: "span 1",
+            sm: "span 2",
+            md: "span 4",
+          }}
+          gridRow={{
+            xs: "auto",
+            md: "span 2",
+          }}
           backgroundColor={colors.primary[400]}
+          minWidth={0}
+          overflow="hidden"
         >
           <Typography
             variant="h5"
             fontWeight="600"
-            sx={{ padding: "30px 30px 0 30px" }}
+            sx={{
+              padding: {
+                xs: "18px 18px 0 18px",
+                sm: "24px 24px 0 24px",
+                md: "30px 30px 0 30px",
+              },
+            }}
           >
             Sales Quantity
           </Typography>
-          <Box height="250px" mt="-20px">
+
+          <Box
+            height={{
+              xs: "240px",
+              sm: "270px",
+              md: "250px",
+            }}
+            mt="-20px"
+          >
             <BarChart isDashboard={true} />
           </Box>
         </Box>
+
+        {/* ==================== GEOGRAPHY ==================== */}
+
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+          gridColumn={{
+            xs: "span 1",
+            sm: "span 2",
+            md: "span 4",
+          }}
+          gridRow={{
+            xs: "auto",
+            md: "span 2",
+          }}
           backgroundColor={colors.primary[400]}
-          padding="30px"
+          padding={{
+            xs: "18px",
+            sm: "24px",
+            md: "30px",
+          }}
+          minWidth={0}
+          overflow="hidden"
         >
           <Typography
             variant="h5"
             fontWeight="600"
-            sx={{ marginBottom: "15px" }}
+            sx={{
+              marginBottom: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
           >
             Geography Based Traffic
           </Typography>
-          <Box height="200px">
+
+          <Box
+            height={{
+              xs: "240px",
+              sm: "260px",
+              md: "200px",
+            }}
+          >
             <GeographyChart isDashboard={true} />
           </Box>
         </Box>

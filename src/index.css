@@ -1,35 +1,142 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
 
+
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+
 html,
 body,
-#root,
-.app,
-.content {
-  height: 100%;
+#root {
+  margin: 0;
+
+  padding: 0;
+
   width: 100%;
-  font-family: "Source Sans Pro", sans-serif;
+
+  min-height: 100%;
+
+  font-family:
+    "Source Sans Pro",
+    sans-serif;
 }
+
+
+body {
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
 
 .app {
-  display: flex;
-  position: relative;
+  width: 100%;
+
+  min-height: 100vh;
+
+  margin: 0;
+
+  padding: 0;
 }
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+/*
+   Expanded sidebar = 250px
+*/
+
+.content {
+  width: calc(100% - 250px);
+
+  min-height: 100vh;
+
+  margin-left: 250px;
+
+  overflow-x: hidden;
+
+  transition:
+    width 0.2s ease,
+    margin-left 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+
+/*
+   Collapsed sidebar = 72px
+
+   IMPORTANT:
+   This is what removes the empty space
+   you were seeing.
+*/
+
+.content.sidebar-collapsed {
+  width: calc(100% - 72px);
+
+  margin-left: 72px;
+}
+
+
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
+
+@media screen and (max-width: 768px) {
+
+  .content,
+
+  .content.sidebar-collapsed {
+    width: calc(100% - 72px);
+
+    margin-left: 72px;
+  }
+}
+
+
+/* =========================================================
+   PAGE HEIGHT
+========================================================= */
+
+main.content {
+  min-height: 100vh;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   GLOBAL SCROLLBAR
+========================================================= */
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
+
+  height: 8px;
 }
 
-/* Track */
+
 ::-webkit-scrollbar-track {
   background: #e0e0e0;
 }
 
-/* Handle */
+
 ::-webkit-scrollbar-thumb {
   background: #888;
+
+  border-radius: 4px;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-track:hover {
+
+::-webkit-scrollbar-thumb:hover {
   background: #555;
 }

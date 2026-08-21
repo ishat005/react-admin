@@ -15,39 +15,158 @@ const Topbar = () => {
   const colorMode = useContext(ColorModeContext);
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
-      {/* SEARCH BAR */}
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      gap="12px"
+      p={{
+        xs: "8px 12px",
+        sm: "12px 16px",
+        md: "16px",
+      }}
+      width="100%"
+      boxSizing="border-box"
+    >
+      {/* SEARCH */}
       <Box
         display="flex"
+        alignItems="center"
         backgroundColor={colors.primary[400]}
         borderRadius="3px"
+        width={{
+          xs: "100%",
+          sm: "250px",
+          md: "300px",
+        }}
+        maxWidth="100%"
+        minWidth={0}
       >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-        <IconButton type="button" sx={{ p: 1 }}>
-          <SearchIcon />
+        <InputBase
+          sx={{
+            ml: 2,
+            flex: 1,
+            minWidth: 0,
+            fontSize: {
+              xs: "13px",
+              sm: "14px",
+            },
+          }}
+          placeholder="Search"
+        />
+
+        <IconButton
+          type="button"
+          sx={{
+            p: {
+              xs: "6px",
+              sm: "8px",
+            },
+          }}
+        >
+          <SearchIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "24px",
+              },
+            }}
+          />
         </IconButton>
       </Box>
 
       {/* ICONS */}
-      <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
+      <Box
+        display="flex"
+        alignItems="center"
+        flexShrink={0}
+      >
+        {/* THEME */}
+        <IconButton
+          onClick={colorMode.toggleColorMode}
+          sx={{
+            p: {
+              xs: "5px",
+              sm: "8px",
+            },
+          }}
+        >
           {theme.palette.mode === "dark" ? (
-            <DarkModeOutlinedIcon />
+            <DarkModeOutlinedIcon
+              sx={{
+                fontSize: {
+                  xs: "20px",
+                  sm: "24px",
+                },
+              }}
+            />
           ) : (
-            <LightModeOutlinedIcon />
+            <LightModeOutlinedIcon
+              sx={{
+                fontSize: {
+                  xs: "20px",
+                  sm: "24px",
+                },
+              }}
+            />
           )}
         </IconButton>
 
-        <IconButton>
-          <NotificationsOutlinedIcon />
+        {/* NOTIFICATIONS */}
+        <IconButton
+          sx={{
+            p: {
+              xs: "5px",
+              sm: "8px",
+            },
+          }}
+        >
+          <NotificationsOutlinedIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "24px",
+              },
+            }}
+          />
         </IconButton>
 
-        <IconButton>
-          <SettingsOutlinedIcon />
+        {/* SETTINGS */}
+        <IconButton
+          sx={{
+            p: {
+              xs: "5px",
+              sm: "8px",
+            },
+          }}
+        >
+          <SettingsOutlinedIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "24px",
+              },
+            }}
+          />
         </IconButton>
 
-        <IconButton>
-          <PersonOutlinedIcon />
+        {/* PROFILE */}
+        <IconButton
+          sx={{
+            p: {
+              xs: "5px",
+              sm: "8px",
+            },
+          }}
+        >
+          <PersonOutlinedIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "24px",
+              },
+            }}
+          />
         </IconButton>
       </Box>
     </Box>

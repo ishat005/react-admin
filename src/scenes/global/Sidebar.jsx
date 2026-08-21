@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import "react-pro-sidebar/dist/css/styles.css";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+
+import {
+  Box,
+  IconButton,
+  Typography,
+  useTheme,
+} from "@mui/material";
+
 import { Link } from "react-router-dom";
+
 import { tokens } from "../../theme";
+
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
@@ -18,223 +25,634 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+/* =========================================================
+   SIDEBAR ITEM
+========================================================= */
+
+const SidebarItem = ({
+  title,
+  to,
+  icon,
+  selected,
+  setSelected,
+  collapsed,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
-    <MenuItem
-      active={selected === title}
+    <Link
+      to={to}
       style={{
-        color: colors.grey[100],
+        textDecoration: "none",
+        color: "inherit",
       }}
-      onClick={() => setSelected(title)}
-      icon={icon}
     >
-      <Typography>{title}</Typography>
-      <Link to={to} />
-    </MenuItem>
+      <Box
+        onClick={() => setSelected(title)}
+        sx={{
+          display: "flex",
+
+          alignItems: "center",
+
+          justifyContent: collapsed
+            ? "center"
+            : "flex-start",
+
+          height: "44px",
+
+          margin: "4px 10px",
+
+          padding: collapsed
+            ? "0"
+            : "0 10px",
+
+          borderRadius: "4px",
+
+          color:
+            selected === title
+              ? colors.blueAccent[500]
+              : colors.grey[100],
+
+          cursor: "pointer",
+
+          transition:
+            "background-color 0.2s ease, color 0.2s ease",
+
+          "&:hover": {
+            backgroundColor:
+              colors.primary[500],
+
+            color:
+              colors.blueAccent[400],
+          },
+        }}
+      >
+
+        {/* ICON */}
+
+        <Box
+          sx={{
+            width: collapsed
+              ? "44px"
+              : "30px",
+
+            minWidth: collapsed
+              ? "44px"
+              : "30px",
+
+            display: "flex",
+
+            alignItems: "center",
+
+            justifyContent: "center",
+          }}
+        >
+          {icon}
+        </Box>
+
+
+        {/* TEXT */}
+
+        {!collapsed && (
+          <Typography
+            sx={{
+              marginLeft: "10px",
+
+              fontSize: "14px",
+
+              fontWeight:
+                selected === title
+                  ? 600
+                  : 400,
+
+              whiteSpace: "nowrap",
+            }}
+          >
+            {title}
+          </Typography>
+        )}
+
+      </Box>
+    </Link>
   );
 };
 
-const Sidebar = () => {
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+const SectionTitle = ({
+  children,
+  collapsed,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+
+  if (collapsed) {
+    return null;
+  }
+
+  return (
+    <Typography
+      sx={{
+        color: colors.grey[300],
+
+        fontSize: "12px",
+
+        margin:
+          "18px 20px 6px",
+      }}
+    >
+      {children}
+    </Typography>
+  );
+};
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+const Sidebar = ({
+  isCollapsed,
+  setIsCollapsed,
+  isMobile,
+}) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  /*
+    If mobile/tablet:
+      always collapsed
+
+    If desktop:
+      use actual collapsed state
+  */
+
+  const collapsed =
+    isMobile || isCollapsed;
+
+
+  /* =========================================
+     TOGGLE SIDEBAR
+  ========================================== */
+
+  const handleToggle = () => {
+    // Do nothing on mobile/tablet
+    if (isMobile) {
+      return;
+    }
+
+    setIsCollapsed(
+      (previous) => !previous
+    );
+  };
+
+
+  /* =========================================
+     SELECTED MENU ITEM
+  ========================================== */
+
+  const [selected, setSelected] =
+    useState("Dashboard");
+
 
   return (
     <Box
+      component="aside"
+
       sx={{
-        "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#6870fa !important",
+        position: "fixed",
+
+        top: 0,
+
+        left: 0,
+
+        bottom: 0,
+
+        width: collapsed
+          ? "72px"
+          : "250px",
+
+        height: "100vh",
+
+        minHeight: "100vh",
+
+        backgroundColor:
+          colors.primary[400],
+
+        zIndex: 1200,
+
+        overflow: "hidden",
+
+        transition:
+          "width 0.2s ease",
+
+        /*
+          IMPORTANT:
+          This prevents the sidebar from
+          creating horizontal overflow.
+        */
+
+        boxSizing: "border-box",
+
+        "@media (max-width: 768px)": {
+          width: "72px",
         },
       }}
     >
-      <ProSidebar collapsed={isCollapsed}>
-        <Menu iconShape="square">
-          {/* LOGO AND MENU ICON */}
-          <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{
-              margin: "10px 0 20px 0",
-              color: colors.grey[100],
-            }}
-          >
-            {/* when menu not collapsed */}
-            {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="15px"
-              >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  ADMINIS
-                </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
-              </Box>
-            )}
-          </MenuItem>
 
-          {/* USER */}
-          {!isCollapsed && (
-            <Box mb="25px">
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={`../../assets/user.png`}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
-                />
-              </Box>
-              <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  color={colors.grey[100]}
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
-                  Isha Thakur
-                </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
-                </Typography>
-              </Box>
-            </Box>
+      {/* =========================================
+          SCROLLABLE SIDEBAR CONTENT
+      ========================================== */}
+
+      <Box
+        sx={{
+          width: "100%",
+
+          height: "100%",
+
+          overflowY: "auto",
+
+          overflowX: "hidden",
+
+          boxSizing: "border-box",
+
+          paddingBottom: "30px",
+
+          /*
+            Sidebar scrollbar
+          */
+
+          "&::-webkit-scrollbar": {
+            width: "5px",
+          },
+
+          "&::-webkit-scrollbar-track": {
+            background:
+              colors.primary[400],
+          },
+
+          "&::-webkit-scrollbar-thumb": {
+            background:
+              colors.primary[500],
+
+            borderRadius: "5px",
+          },
+        }}
+      >
+
+        {/* =========================================
+            HEADER
+        ========================================== */}
+
+        <Box
+          sx={{
+            height: "70px",
+
+            minHeight: "70px",
+
+            display: "flex",
+
+            alignItems: "center",
+
+            justifyContent:
+              collapsed
+                ? "center"
+                : "space-between",
+
+            padding:
+              collapsed
+                ? 0
+                : "0 12px 0 20px",
+
+            color:
+              colors.grey[100],
+
+            boxSizing: "border-box",
+          }}
+        >
+
+          {/* ADMINIS */}
+
+          {!collapsed && (
+            <Typography
+              sx={{
+                fontSize: "20px",
+
+                fontWeight: 600,
+
+                whiteSpace:
+                  "nowrap",
+              }}
+            >
+              ADMINIS
+            </Typography>
           )}
 
-          {/* MENU ITEMS */}
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item
-              title="Dashboard"
-              to="/"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
 
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+          {/* HAMBURGER */}
+
+          <IconButton
+            onClick={handleToggle}
+
+            disabled={isMobile}
+
+            sx={{
+              color:
+                colors.grey[100],
+
+              padding: "8px",
+
+              "&.Mui-disabled": {
+                color:
+                  colors.grey[100],
+
+                opacity: 1,
+              },
+            }}
+          >
+            <MenuOutlinedIcon />
+          </IconButton>
+
+        </Box>
+
+
+        {/* =========================================
+            USER PROFILE
+        ========================================== */}
+
+        {!collapsed && (
+
+          <Box
+            sx={{
+              padding:
+                "10px 10px 25px",
+            }}
+          >
+
+            {/* PROFILE IMAGE */}
+
+            <Box
+              sx={{
+                display: "flex",
+
+                justifyContent:
+                  "center",
+
+                alignItems:
+                  "center",
+              }}
             >
-              Data
-            </Typography>
 
-            <Item
-              title="Manage Team"
-              to="/team"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+              <img
+                src="../../assets/user.png"
+                alt="profile-user"
 
-            <Item
-              title="Contacts Information"
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+                style={{
+                  width: "100px",
 
-            <Item
-              title="Invoices Balances"
-              to="/invoices"
-              icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+                  height: "100px",
 
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+                  borderRadius:
+                    "50%",
+
+                  objectFit:
+                    "cover",
+
+                  display: "block",
+                }}
+              />
+
+            </Box>
+
+
+            {/* PROFILE NAME */}
+
+            <Box
+              sx={{
+                textAlign: "center",
+              }}
             >
-              Pages
-            </Typography>
 
-            <Item
-              title="Profile Form"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+              <Typography
+                sx={{
+                  color:
+                    colors.grey[100],
 
-            <Item
-              title="Calendar"
-              to="/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+                  fontWeight: 700,
 
-            <Item
-              title="FAQ Page"
-              to="/faq"
-              icon={<HelpOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+                  fontSize: "25px",
 
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Charts
-            </Typography>
-            <Item
-              title="Bar Chart"
-              to="/bar"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+                  marginTop: "10px",
 
-            <Item
-              title="Pie Chart"
-              to="/pie"
-              icon={<PieChartOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+                  whiteSpace:
+                    "nowrap",
+                }}
+              >
+                Isha Thakur
+              </Typography>
 
-            <Item
-              title="Line Chart"
-              to="/line"
-              icon={<TimelineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
 
-            <Item
-              title="Geography Chart"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+              <Typography
+                sx={{
+                  color:
+                    colors.greenAccent[500],
+
+                  fontSize: "14px",
+
+                  whiteSpace:
+                    "nowrap",
+                }}
+              >
+                VP Fancy Admin
+              </Typography>
+
+            </Box>
+
           </Box>
-        </Menu>
-      </ProSidebar>
+
+        )}
+
+
+        {/* =========================================
+            MENU ITEMS
+        ========================================== */}
+
+        <Box>
+
+          {/* DASHBOARD */}
+
+          <SidebarItem
+            title="Dashboard"
+            to="/"
+            icon={
+              <HomeOutlinedIcon />
+            }
+            selected={selected}
+            setSelected={setSelected}
+            collapsed={collapsed}
+          />
+
+
+          {/* =========================
+              DATA
+          ========================== */}
+
+          <SectionTitle
+            collapsed={collapsed}
+          >
+            Data
+          </SectionTitle>
+
+
+          <SidebarItem
+            title="Manage Team"
+            to="/team"
+            icon={
+              <PeopleOutlinedIcon />
+            }
+            selected={selected}
+            setSelected={setSelected}
+            collapsed={collapsed}
+          />
+
+
+          <SidebarItem
+            title="Contacts Information"
+            to="/contacts"
+            icon={
+              <ContactsOutlinedIcon />
+            }
+            selected={selected}
+            setSelected={setSelected}
+            collapsed={collapsed}
+          />
+
+
+          <SidebarItem
+            title="Invoices Balances"
+            to="/invoices"
+            icon={
+              <ReceiptOutlinedIcon />
+            }
+            selected={selected}
+            setSelected={setSelected}
+            collapsed={collapsed}
+          />
+
+
+          {/* =========================
+              PAGES
+          ========================== */}
+
+          <SectionTitle
+            collapsed={collapsed}
+          >
+            Pages
+          </SectionTitle>
+
+
+          <SidebarItem
+            title="Profile Form"
+            to="/form"
+            icon={
+              <PersonOutlinedIcon />
+            }
+            selected={selected}
+            setSelected={setSelected}
+            collapsed={collapsed}
+          />
+
+
+          <SidebarItem
+            title="Calendar"
+            to="/calendar"
+            icon={
+              <CalendarTodayOutlinedIcon />
+            }
+            selected={selected}
+            setSelected={setSelected}
+            collapsed={collapsed}
+          />
+
+
+          <SidebarItem
+            title="FAQ Page"
+            to="/faq"
+            icon={
+              <HelpOutlineOutlinedIcon />
+            }
+            selected={selected}
+            setSelected={setSelected}
+            collapsed={collapsed}
+          />
+
+
+          {/* =========================
+              CHARTS
+          ========================== */}
+
+          <SectionTitle
+            collapsed={collapsed}
+          >
+            Charts
+          </SectionTitle>
+
+
+          <SidebarItem
+            title="Bar Chart"
+            to="/bar"
+            icon={
+              <BarChartOutlinedIcon />
+            }
+            selected={selected}
+            setSelected={setSelected}
+            collapsed={collapsed}
+          />
+
+
+          <SidebarItem
+            title="Pie Chart"
+            to="/pie"
+            icon={
+              <PieChartOutlineOutlinedIcon />
+            }
+            selected={selected}
+            setSelected={setSelected}
+            collapsed={collapsed}
+          />
+
+
+          <SidebarItem
+            title="Line Chart"
+            to="/line"
+            icon={
+              <TimelineOutlinedIcon />
+            }
+            selected={selected}
+            setSelected={setSelected}
+            collapsed={collapsed}
+          />
+
+
+          <SidebarItem
+            title="Geography Chart"
+            to="/geography"
+            icon={
+              <MapOutlinedIcon />
+            }
+            selected={selected}
+            setSelected={setSelected}
+            collapsed={collapsed}
+          />
+
+        </Box>
+
+      </Box>
+
     </Box>
   );
 };
